@@ -1,50 +1,63 @@
 package bibliotecaTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import biblioteca.Autor;
 import biblioteca.Biblioteca;
 import biblioteca.Copia;
 import biblioteca.Lector;
 import biblioteca.Libro;
+import biblioteca.Novela;
+import biblioteca.Poesia;
+import biblioteca.Teatro;
 
 public class BibliotecaTest {
 
 	public static void main(String[] args) {
 
 		// Todas las variables declaradas dentro del main son VARIABLES LOCALES:
-		// las de tipo objeto (Autor, Libro, Lector, Biblioteca, Copia) son de REFERENCIA
+		// las de tipo objeto (Autor, Novela, Teatro, Poesia, Lector, Biblioteca, Copia) son de REFERENCIA
 		// y las de tipo int o boolean son PRIMITIVAS.
 
 		// 1) CREACION DE AUTORES (uso de los 3 constructores sobrecargados)
 		System.out.println("=== AUTORES ===");
-		Autor borges = new Autor("Jorge Luis Borges", "Argentina", LocalDate.of(1899, 8, 24)); // variable local de referencia
+		Autor sabato = new Autor("Ernesto Sabato", "Argentina", LocalDate.of(1911, 6, 24)); // variable local de referencia
 		Autor lorca = new Autor("Federico Garcia Lorca", "Espaniola", 5, 6, 1898); // variable local de referencia
 		Autor storni = new Autor(); // constructor vacio: los datos se cargan con los setters
 		storni.setNombre("Alfonsina Storni");
 		storni.setNacionalidad("Argentina");
 		storni.setFechaNacimiento(LocalDate.of(1892, 5, 29));
-		System.out.println(borges);
+		System.out.println(sabato);
 		System.out.println(lorca);
 		System.out.println(storni);
 
-		// 2) CREACION DE LIBROS (ASOCIACION Libro - Autor)
+		// 2) CREACION DE LIBROS CON HERENCIA (Novela, Teatro y Poesia extienden de Libro)
+		// cada libro tiene ASOCIACION con su Autor
 		System.out.println("\n=== LIBROS ===");
-		Libro ficciones = new Libro("Ficciones", "Novela", "Sur", 1944, borges);
-		Libro bodas = new Libro("Bodas de sangre", "teatro", "Losada", 1933, lorca);
-		Libro ocre = new Libro("Ocre", "poesia", storni); // constructor sobrecargado sin editorial ni anio
-		System.out.println(ficciones);
+		Novela tunel = new Novela("El tunel", "Sur", 1948, sabato, "psicologica"); // constructor completo
+		Teatro bodas = new Teatro("Bodas de sangre", lorca, 3); // constructor sobrecargado sin editorial ni anio
+		Poesia ocre = new Poesia("Ocre", "Babel", 1925, storni, "soneto");
+		System.out.println(tunel);
 		System.out.println(bodas);
 		System.out.println(ocre);
-		System.out.println("Prueba de tipo invalido:");
-		Libro ensayo = new Libro("Otras inquisiciones", "ensayo", borges); // el tipo no se guarda porque es invalido
-		System.out.println(ensayo);
+
+		// POLIMORFISMO: una variable de tipo Libro puede guardar una Novela, un Teatro o una Poesia,
+		// y al llamar a describir() se ejecuta la version sobreescrita de cada subclase
+		System.out.println("\n=== HERENCIA Y POLIMORFISMO ===");
+		ArrayList<Libro> libros = new ArrayList<>(); // variable local de referencia: lista de la superclase Libro
+		libros.add(tunel);
+		libros.add(bodas);
+		libros.add(ocre);
+		for (Libro libro : libros) { // libro es una variable local de referencia del for
+			System.out.println(libro.getTipo() + " -> " + libro.describir());
+		}
 
 		// 3) CREACION DE LA BIBLIOTECA Y SUS COPIAS (COMPOSICION Biblioteca - Copia)
 		System.out.println("\n=== BIBLIOTECA ===");
 		Biblioteca biblioteca = new Biblioteca("Biblioteca Municipal");
-		int idPrimeraCopia = biblioteca.agregarCopia(ficciones); // variable local primitiva
-		biblioteca.agregarCopia(ficciones, 2); // metodo sobrecargado: agrega 2 copias de una vez
+		int idPrimeraCopia = biblioteca.agregarCopia(tunel); // variable local primitiva
+		biblioteca.agregarCopia(tunel, 2); // metodo sobrecargado: agrega 2 copias de una vez
 		biblioteca.agregarCopia(bodas, 2);
 		biblioteca.agregarCopia(ocre);
 		System.out.println("Identificador de la primera copia: " + idPrimeraCopia);
@@ -69,10 +82,10 @@ public class BibliotecaTest {
 		System.out.println("Ana pide 'Bodas de sangre': " + biblioteca.prestar(ana, "Bodas de sangre")); // por nombre
 		System.out.println("Ana pide 'Ocre': " + biblioteca.prestar(ana, "Ocre"));
 		System.out.println("Ana pide un 4to libro:");
-		System.out.println("Resultado: " + biblioteca.prestar(ana, "Ficciones")); // supera el maximo de 3
+		System.out.println("Resultado: " + biblioteca.prestar(ana, "El tunel")); // supera el maximo de 3
 		System.out.println("Juan pide la copia 1 (ya prestada):");
 		System.out.println("Resultado: " + biblioteca.prestar(juan, 1));
-		System.out.println("Juan pide 'Ficciones': " + biblioteca.prestar(juan, "Ficciones"));
+		System.out.println("Juan pide 'El tunel': " + biblioteca.prestar(juan, "El tunel"));
 		System.out.println("Juan pide 'Ocre' (no quedan copias):");
 		System.out.println("Resultado: " + biblioteca.prestar(juan, "Ocre"));
 		System.out.println(biblioteca);
@@ -86,7 +99,7 @@ public class BibliotecaTest {
 		System.out.println("Juan intenta devolver la copia 1 (no la tiene):");
 		System.out.println("Resultado: " + biblioteca.devolver(juan, 1));
 		System.out.println("Ana ahora puede pedir otro libro: " + ana.puedePedirPrestamo());
-		System.out.println("Ana pide 'Ficciones': " + biblioteca.prestar(ana, "Ficciones"));
+		System.out.println("Ana pide 'El tunel': " + biblioteca.prestar(ana, "El tunel"));
 
 		// 7) ESTADO FINAL
 		System.out.println("\n=== ESTADO FINAL ===");
