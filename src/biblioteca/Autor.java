@@ -4,29 +4,20 @@ import java.time.LocalDate;
 
 public class Autor {
 
-	// ATRIBUTOS DE LA CLASE AUTOR (encapsulados con private)
-	private String nombre; // variable de instancia de referencia que almacena el nombre del autor
-	private String nacionalidad; // variable de instancia de referencia que almacena la nacionalidad del autor
-	private LocalDate fechaNacimiento; // variable de instancia de referencia que almacena la fecha de nacimiento del autor
+	// ATRIBUTOS
+	private String nombre; // variable de instancia de referencia
+	private String nacionalidad; // variable de instancia de referencia
+	private LocalDate fechaNacimiento; // variable de instancia de referencia
 
-	// SOBRECARGA DE CONSTRUCTORES
-
-	// constructor vacio: crea un autor sin datos, que se pueden cargar despues con los setters
+	// CONSTRUCTORES (sobrecarga)
 	public Autor() {
 	}
 
-	// constructor que recibe la fecha de nacimiento como un objeto LocalDate
-	// nombre, nacionalidad y fechaNacimiento son parametros: variables locales de referencia del constructor
+	// los parametros son variables locales de referencia
 	public Autor(String nombre, String nacionalidad, LocalDate fechaNacimiento) {
 		this.nombre = nombre;
 		this.nacionalidad = nacionalidad;
 		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	// constructor que recibe la fecha de nacimiento como dia, mes y anio
-	// dia, mes y anio son parametros: variables locales primitivas del constructor
-	public Autor(String nombre, String nacionalidad, int dia, int mes, int anio) {
-		this(nombre, nacionalidad, LocalDate.of(anio, mes, dia)); // reutiliza el constructor anterior
 	}
 
 	// GETTERS Y SETTERS
@@ -57,8 +48,8 @@ public class Autor {
 	// SOBREESCRITURA DEL METODO toString()
 	@Override
 	public String toString() {
-		return "Autor [nombre = " + nombre + ", nacionalidad = " + nacionalidad + ", fechaNacimiento = "
-				+ fechaNacimiento + "]";
+		return "Autor : Nombre = " + nombre + ", Nacionalidad = " + nacionalidad + ", Fecha de Nacimiento = "
+				+ fechaNacimiento ;
 	}
 
 }
