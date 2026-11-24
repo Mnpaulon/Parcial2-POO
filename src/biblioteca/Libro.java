@@ -1,11 +1,10 @@
 package biblioteca;
 
-// Clase padre de Novela, Teatro y Poesia (herencia)
 public class Libro {
 
 	// ATRIBUTOS
 	private String nombre; // variable de instancia de referencia
-	private String tipo; // variable de instancia de referencia
+	private String tipo; // variable de instancia de referencia (novela, teatro o poesia)
 	private String editorial; // variable de instancia de referencia
 	private int anio; // variable de instancia primitiva
 	private Autor autor; // variable de instancia de referencia -> ASOCIACION con Autor
@@ -71,8 +70,8 @@ public class Libro {
 	// SOBREESCRITURA DEL METODO toString()
 	@Override
 	public String toString() {
-		return "Libro : Nombre = " + nombre + ", Tipo = " + tipo + ", Editorial = " + editorial + ", Anio = " + anio
-				+ ", Autor = " + autor.getNombre();
+		return "Nombre:  " + nombre + ", Tipo: " + tipo + ", Editorial: " + editorial + ", Anio:  " + anio
+				+ ", Autor: " + autor.getNombre();
 	}
 
 }
